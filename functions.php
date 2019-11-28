@@ -49,7 +49,7 @@ function updateProfile($displayName, $phoneNumber, $mime, $avatars, $id){
 }
 function getNewFeeds(){
     global $db;
-    $stmt = $db->query("SELECT p.*, u.displayName FROM posts AS p JOIN user AS u ON p.userID = u.id ORDER BY createdAt DESC");
+    $stmt = $db->query("SELECT p.*, u.displayName, u.id FROM posts AS p JOIN user AS u ON p.userID = u.id ORDER BY createdAt DESC");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 function createPost($userID, $content){
