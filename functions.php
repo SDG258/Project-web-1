@@ -21,7 +21,7 @@ function findUserById ($id) {
 function detetPage(){
     $uri = $_SERVER['REQUEST_URI'];
     $parts = explode('/', $uri);
-    $fileName = $parts[2];
+    $fileName = $parts[count($parts)-1];
     $parts = explode('.', $fileName);
     $page = $parts[0];
     return $page;

@@ -10,7 +10,7 @@
 
 <body>
     <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href=index.php><strong>GATO</strong></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -18,24 +18,24 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item <?php echo $page == 'index' ? 'active' : '' ?>">
-                        <a class="nav-link" href="index.php">Trang chủ</a>
+                        <a class="nav-link" href="index.php"><strong>Trang chủ</strong></a>
                     </li>
                     <?php if (!$currentUser) : ?>
                         <li class="nav-item<?php echo $page == 'register' ? 'active' : '' ?>">
-                            <a class="nav-link" href="register.php">Đăng ký</a>
+                            <a class="nav-link" href="register.php"> <strong>Đăng ký</strong></a>
                         </li>
                         <li class="nav-item<?php echo $page == 'login' ? 'active' : '' ?>">
-                            <a class="nav-link" href="login.php">Đăng nhập</a>
+                            <a class="nav-link" href="login.php"> <strong>Đăng nhập</strong></a>
                         </li>
                     <?php else : ?>
                         <li class="nav-item<?php echo $page == 'updateProfile' ? 'active' : '' ?>">
-                            <a class="nav-link" href="updateProfile.php"><?php echo $currentUser ?  $currentUser['displayName'] : '' ?> </a>
+                            <a class="nav-link" href="updateProfile.php"> <strong>Cập nhật thông tin cá nhân</strong></a>
                         </li>
                         <li class="nav-item<?php echo $page == 'changePassword' ? 'active' : '' ?>">
-                            <a class="nav-link" href="changePassword.php">Đổi mật khẩu</a>
+                            <a class="nav-link" href="changePassword.php"><strong>Đổi mật khẩu</strong></a>
                         </li>
                         <li class="nav-item<?php echo $page == 'logout' ? 'active' : '' ?>">
-                            <a class="nav-link" href="logout.php">Đăng xuất</a>
+                            <a class="nav-link" href="logout.php"> <strong>Đăng xuất<?php echo  $currentUser ? '(' . $currentUser['displayName'] . ')' : '' ?></strong></a>
                         </li>
                     <?php endif; ?>
             </div>
