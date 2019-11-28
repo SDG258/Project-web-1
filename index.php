@@ -12,16 +12,14 @@ $posts = getNewFeeds();
         </div>
         <button type="submit" class="btn btn-primary">Đăng</button>
     </form>
-
 <div class="row">
     <?php foreach ($posts as $post) : ?>
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">
-                        <img style="width: 100px;" src="avatar.php" <?php echo $post['displayName']; ?>>
-                    </h5>
-                    <h6 class="card-subtitle mb -2 text-muted"><?php echo $post['createdAt']; ?></h6>
+                    <h5 class="card-title"><img style="width: 100px;" src="avatar.php<?php echo "?id=";echo $post['id']; ?>"></h5>
+                    <h5><?php echo $post['displayName'];?></h5>
+                    <h6 class="card-subtitle mb -2 text-muted"><?php echo $post['createdAt'];?></h6>
                     <p class="card-text"><?php echo $post['content'] ?></p>
                 </div>
             </div>

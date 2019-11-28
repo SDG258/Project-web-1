@@ -1,6 +1,7 @@
 <?php
     require_once 'init.php';
-    $row = loadAvatars($currentUser['id']);
+    $id = isset($_GET['id'])? $_GET['id']:"";
+    $row = loadAvatars($id);
     header('Content-Type:'.$row['mime']);
     echo $row['avatars'];
 ?>
