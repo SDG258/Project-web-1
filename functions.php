@@ -32,12 +32,12 @@ function updateUserPassword($id, $password){
     $stmt = $db->prepare("UPDATE user SET password = ? Where id = ?");
     return $stmt->execute(array($hashPassword, $id));
 }
-function createUser($displayName, $email, $password){
+function createUser($firstName, $surname, $displayName, $gender, $email, $password, $DOB, $phoneNumber){
     global $db, $BASE_URL;
     $hashPassword = password_hash($password, PASSWORD_DEFAULT);
     $code = generateRandomString(16);
-    $stmt = $db->prepare("INSERT INTO `user` (`displayName`, `email`, `password`, `phoneNumber`, `status`, `code`, `avatars`) VALUES (?,?,?,?,'0',?,NULL);");
-    $stmt->execute(array($displayName, $email, $hashPassword, 0, $code));
+    $stmt = $db->prepare("INSERT INTO `user` (`id`, `firstName`, `surname`, `displayName`, `gender`, `email`, `password`, `DOB`, `phoneNumber`, `status`, `code`, `mime`, `avatars`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, '0', ?, NULL, NULL);");
+    $stmt->execute(array($firstName, $surname, $displayName, $gender, $email, $hashPassword, $DOB, $phoneNumber, $code));
     $id = $db->lastInsertId();
     sendEmail($email, $displayName, 'Kích hoạt tài khoản', "Để kích hoạt tài khoản vui lòng ấn vào đường link: <a href = \"$BASE_URL/activate.php?code=$code&&email=$email\">$BASE_URL/activate.php?code=$code&&email=$email</a>");
     return $id;
