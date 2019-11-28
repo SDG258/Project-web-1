@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th10 25, 2019 lúc 02:11 PM
+-- Thời gian đã tạo: Th10 28, 2019 lúc 11:14 AM
 -- Phiên bản máy phục vụ: 5.7.26
 -- Phiên bản PHP: 7.2.18
 
@@ -60,9 +60,13 @@ CREATE TABLE IF NOT EXISTS `posts` (
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `firstName` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `surname` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `displayName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gender` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `DOB` date DEFAULT NULL,
   `phoneNumber` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
   `code` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL,
