@@ -6,7 +6,7 @@ if (!$currentUser) {
 }
 ?>
 <?php include 'header.php'; ?>
-<h1>Quản lý thông tin cá nhân</h1>
+<h1 class='textcolor'>Quản lý thông tin cá nhân</h1>
 <?php if (isset($_POST['displayName'])) : ?>
     <?php
         $displayName = $_POST['displayName'];
@@ -35,7 +35,7 @@ if (!$currentUser) {
         <div class="alert alert-danger" role="alert">Cập nhật thông tin thất bại</div>
     <?php endif; ?>
 <?php else : ?>
-    <form action="updateProfile.php" method="POST" enctype="multipart/form-data">
+    <form class='textcolor' action="updateProfile.php" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="displayName">Họ tên</label>
             <input type="text" class="form-control" id="displayName" name="displayName" planceholder="Họ tên" value="<?php echo $currentUser['displayName']; ?>">

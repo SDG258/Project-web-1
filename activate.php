@@ -4,7 +4,7 @@ require_once 'functions.php';
 ?>
 <!-- # add header -->
 <?php include 'header.php'; ?>
-<h1>Kích hoạt tài khoản</h1>
+<h1 class='textcolor'>Kích hoạt tài khoản</h1>
 <?php if (isset($_GET['code']) && isset($_GET['email'])) : ?>
     <?php
         $code = $_GET['code'];

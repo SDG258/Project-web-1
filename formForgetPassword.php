@@ -6,7 +6,7 @@ if (!$currentUser) {
 }
 ?>
 <?php include 'header.php'; ?>
-<h1>Đổi mật khẩu</h1>
+<h1 class='textcolor'>Đổi mật khẩu</h1>
 <?php if (isset($_POST['password'])) : ?>
     <?php
         $password = $_POST['password'];
@@ -24,7 +24,7 @@ if (!$currentUser) {
         <div class="alert alert-danger" role="alert">Đổi mật khẩu thất bại</div>
     <?php endif; ?>
 <?php else : ?>
-    <form action="formForgetPassword.php" method="POST">
+    <form class='textcolor' action="formForgetPassword.php" method="POST">
         <div class="form-group">
             <label for="password">Mật khẩu mới</label>
             <input type="password" class="form-control" id="password" name="password" planceholder="Mật khẩu mới">

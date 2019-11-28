@@ -3,7 +3,7 @@
     require_once 'functions.php';
 ?>
 <?php include 'header.php'; ?>
-<h1>Quên mật khẩu</h1>
+<h1 class='textcolor'>Quên mật khẩu</h1>
 <?php if (isset($_POST['email'])): ?>
 <?php
     $email = $_POST['email'];
@@ -23,7 +23,7 @@
 <div class = "alert alert-success" role ="alert">Vui lòng kiểm tra email để kích hoạt tài khoản</div>
 <?php endif; ?>
 <?php else: ?>
-<form method = "POST">
+<form class='textcolor' method = "POST">
     <div class = "form-group">
         <label for="email">Email hiện tại</label>
         <input type = "text" class ="form-control" id ="email" name ="email" planceholder ="Email">

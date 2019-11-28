@@ -1,4 +1,4 @@
-      <div style="margin-left: 85%;">
+      <div class='textcolor' style="margin-left: 85%;">
         <div style="margin-top: 65%;">
           <blockquote class="blockquote">
             <p class="mb-0">Lập trình web 1</p>
