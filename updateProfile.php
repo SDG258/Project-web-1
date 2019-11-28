@@ -11,6 +11,7 @@ if (!$currentUser) {
     <?php
         $displayName = $_POST['displayName'];
         $phoneNumber = $_POST['phoneNumber'];
+        $DOB = $_POST['DOB'];
 
         $success = false;
 
@@ -23,7 +24,7 @@ if (!$currentUser) {
             $avatar = file_get_contents($fileTemp);
 
             if ($displayName != null) {
-                updateProfile($displayName, $phoneNumber, $fileType, $avatar, $currentUser['id']);
+                updateProfile($displayName, $DOB, $phoneNumber, $fileType, $avatar, $currentUser['id']);
                 $success = true;
             }
         }
@@ -38,6 +39,10 @@ if (!$currentUser) {
         <div class="form-group">
             <label for="displayName">Họ tên</label>
             <input type="text" class="form-control" id="displayName" name="displayName" planceholder="Họ tên" value="<?php echo $currentUser['displayName']; ?>">
+        </div>
+        <div class="form-group">
+            <label for="DOB">Ngày tháng năm sinh</label>
+            <input type="date" class="form-control" id="DOB" name="DOB" planceholder="Ngày tháng năm sinh">
         </div>
         <div class="form-group">
             <label for="phoneNumber">Số điện thoại</label>

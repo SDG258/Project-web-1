@@ -42,10 +42,10 @@ function createUser($displayName, $email, $password){
     sendEmail($email, $displayName, 'Kích hoạt tài khoản', "Để kích hoạt tài khoản vui lòng ấn vào đường link: <a href = \"$BASE_URL/activate.php?code=$code&&email=$email\">$BASE_URL/activate.php?code=$code&&email=$email</a>");
     return $id;
 }
-function updateProfile($displayName, $phoneNumber, $mime, $avatars, $id){
+function updateProfile($displayName, $DOB, $phoneNumber, $mime, $avatars, $id){
     global $db;
-    $stmt = $db->prepare("UPDATE `user` SET `displayName` = ?, `phoneNumber` = ?, `mime` = ? , `avatars` = ? WHERE `user`.`id` = ?");
-    return $stmt->execute(array($displayName, $phoneNumber, $mime, $avatars, $id));
+    $stmt = $db->prepare("UPDATE `user` SET `displayName` = ?, `DOB` = ?, `phoneNumber` = ?, `mime` = ? , `avatars` = ? WHERE `user`.`id` = ?");
+    return $stmt->execute(array($displayName, $DOB, $phoneNumber, $mime, $avatars, $id));
 }
 function getNewFeeds(){
     global $db;
