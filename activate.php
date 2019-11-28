@@ -16,7 +16,7 @@ require_once 'functions.php';
         }
         ?>
     <?php if ($success) : ?>
-        <?php header('Location: login.php'); ?>
+        <?php header('Location: home.php'); ?>
     <?php else : ?>
         <div class="alert alert-danger" role="alert">Kích hoạt tài khoản thất bại</div>
     <?php endif; ?>

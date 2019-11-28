@@ -8,5 +8,5 @@
     if(!empty(trim( $content))){
         createPost($currentUser['id'], $content);
     }
-    header('Location: index.php');
+    header('Location: home.php');
 ?>

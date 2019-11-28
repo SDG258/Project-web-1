@@ -30,7 +30,7 @@ if (!$currentUser) {
         }
         ?>
     <?php if ($success) : ?>
-        <?php header('Location: index.php'); ?>
+        <?php header('Location: home.php'); ?>
     <?php else : ?>
         <div class="alert alert-danger" role="alert">Cập nhật thông tin thất bại</div>
     <?php endif; ?>
@@ -42,11 +42,11 @@ if (!$currentUser) {
         </div>
         <div class="form-group">
             <label for="DOB">Ngày tháng năm sinh</label>
-            <input type="date" class="form-control" id="DOB" name="DOB" planceholder="Ngày tháng năm sinh">
+            <input type="date" class="form-control" id="DOB" name="DOB" planceholder="Ngày tháng năm sinh" value="<?php echo $currentUser['DOB']; ?>">
         </div>
         <div class="form-group">
             <label for="phoneNumber">Số điện thoại</label>
-            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" planceholder="Số điện thoại">
+            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" planceholder="Số điện thoại" value="<?php echo $currentUser['phoneNumber']; ?>">
         </div>
         <div class="form-group">
             <label for="avatar">Ảnh đại diện</label>

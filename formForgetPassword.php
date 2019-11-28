@@ -19,7 +19,7 @@ if (!$currentUser) {
         }
         ?>
     <?php if ($success) : ?>
-        <?php header('Location: index.php'); ?>
+        <?php header('Location: home.php'); ?>
     <?php else : ?>
         <div class="alert alert-danger" role="alert">Đổi mật khẩu thất bại</div>
     <?php endif; ?>

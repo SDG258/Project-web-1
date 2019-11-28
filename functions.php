@@ -44,7 +44,7 @@ function createUser($firstName, $surname, $displayName, $gender, $email, $passwo
 }
 function updateProfile($displayName, $DOB, $phoneNumber, $mime, $avatars, $id){
     global $db;
-    $stmt = $db->prepare("UPDATE `user` SET `displayName` = ?, `DOB` = ?, `phoneNumber` = ?, `mime` = ? , `avatars` = ? WHERE `user`.`id` = ?");
+    $stmt = $db->prepare("UPDATE `user` SET `displayName` = ?, `DOB` = ?, `phoneNumber` = ?, `mime` = ?, `avatars` =  ? WHERE `user`.`id` = ?");
     return $stmt->execute(array($displayName, $DOB, $phoneNumber, $mime, $avatars, $id));
 }
 function getNewFeeds(){
