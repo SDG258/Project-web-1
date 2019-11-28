@@ -52,6 +52,13 @@ function getNewFeeds(){
     $stmt = $db->query("SELECT p.*, u.displayName, u.id FROM posts AS p JOIN user AS u ON p.userID = u.id ORDER BY createdAt DESC");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function getMyStatus($userID){
+    global $db;
+    $stmt = $db->prepare("SELECT p.*, u.displayName, u.id, u.DOB  FROM posts AS p JOIN user AS u ON p.userID = u.id Where u.id = ? ORDER BY createdAt DESC");
+    $stmt->execute(array($userID));
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 function createPost($userID, $content){
     global $db;
     $stmt = $db->prepare("INSERT INTO posts (content, userID) VALUES (? ,? )");

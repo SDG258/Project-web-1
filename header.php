@@ -34,6 +34,9 @@
                         <li class="nav-item<?php echo $page == 'changePassword' ? 'active' : '' ?>">
                             <a class="nav-link" href="changePassword.php"><strong>Đổi mật khẩu</strong></a>
                         </li>
+                        <li class="nav-item<?php echo $page == 'personal' ? 'active' : '' ?>">
+                            <a class="nav-link" href="personal.php"><strong> Trang cá nhân</strong></a>
+                        </li>
                         <li class="nav-item<?php echo $page == 'logout' ? 'active' : '' ?>">
                             <a class="nav-link" href="logout.php"> <strong>Đăng xuất<?php echo  $currentUser ? '(' . $currentUser['displayName'] . ')' : '' ?></strong></a>
                         </li>
