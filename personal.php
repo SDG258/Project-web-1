@@ -8,7 +8,7 @@ $posts = getMyStatus($currentUser['id']);
 
 <div class="media">
     <div class="media-left">
-        <img style="float: left;width: 150px;height:120px;" src="avatar.php<?php echo "?id=";
+        <img style="float: left;width: 150px;" src="avatar.php<?php echo "?id=";
                                                                             echo $currentUser['id']; ?>">
     </div>
     <div style="text-indent: 10px;">
@@ -47,7 +47,7 @@ $posts = getMyStatus($currentUser['id']);
             <div class="card">
                 <div class="card-horizontal">
                     <div class="img-square-wrapper">
-                        <img style="float: left;width: 150px;height:120px;" src="avatar.php<?php echo "?id=";
+                        <img style="float: left;width: 150px;height:200px" src="avatar.php<?php echo "?id=";
                                                                                                 echo $post['id']; ?>">
                     </div>
                     <div style="margin-left:10px;" class="card-body">

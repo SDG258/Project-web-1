@@ -24,7 +24,7 @@ $posts = getNewFeeds();
                 <div class="card">
                     <div class="card-horizontal">
                         <div class="img-square-wrapper">
-                            <img style="float: left;width: 150px;height:120px;" src="avatar.php<?php echo "?id=";echo $post['id']; ?>">
+                            <img style="float: left;width: 150px;height:200px" src="avatar.php<?php echo "?id=";echo $post['id']; ?>">
                         </div>
                         <div style="margin-left:10px;" class="card-body">
                             <h4 class="card-title"><?php echo $post['displayName']; ?></h4>
