@@ -80,12 +80,8 @@ if (isset($_POST['email']) && isset($_POST['password']) &&isset($_POST['login'])
 
         $DOB = $inputYear."-".$inputMonth."-".$inputDay;
 
-        if (isset($_POST['customRadioInline1'])) {
-            $gender = "Female";
-        }
-        else{
-            $gender ="Male";
-        }
+        $gender = $_POST['gender'];
+
         $success = false;
 
         $user = findUserByEmail($email);
@@ -157,12 +153,12 @@ if (isset($_POST['email']) && isset($_POST['password']) &&isset($_POST['login'])
                         <div class="form-row">
                             <div class="col-sm-5" style="margin-left: 20%;">
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input checked="checked" type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+                                    <input checked="checked" type="radio" id="customRadioInline1" name="gender" class="custom-control-input" value="female">
                                     <label class="custom-control-label" for="customRadioInline1">Female</label>
                                 </div>
                             </div>
                             <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" id="customRadioInline2" name="customRadioInline2" class="custom-control-input">
+                                <input type="radio" id="customRadioInline2" name="gender" class="custom-control-input" value="male">
                                 <label class="custom-control-label" for="customRadioInline2">Male</label>
                             </div>
                         </div>
