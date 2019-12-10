@@ -20,6 +20,7 @@ $posts = getNewFeeds();
 
     <div class="row">
         <?php foreach ($posts as $post) : ?>
+           <?php $id=$post['id']; ?>
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-horizontal">
@@ -27,7 +28,12 @@ $posts = getNewFeeds();
                             <img style="float: left;width: 150px;height:200px" src="avatar.php<?php echo "?id=";echo $post['id']; ?>">
                         </div>
                         <div style="margin-left:10px;" class="card-body">
-                            <h4 class="card-title"><?php echo $post['displayName']; ?></h4>
+                            <h1 class="card-title"> 
+                                <a href= "<?php echo $post['id'] == $currentUser['id'] ? "personal.php" :"profile.php?id=$id";?>">
+                                <?php echo $post['displayName']; ?>
+
+                                
+                        </a></h1>
                             <small class="text-muted">Đăng lúc: <?php echo $post['createdAt']; ?></small>
                             <p class="card-text"><?php echo $post['content']; ?></p>
                         </div>
