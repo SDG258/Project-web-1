@@ -12,7 +12,7 @@ $posts = getMyStatus($currentUser['id']);
                                                                             echo $currentUser['id']; ?>">
     </div>
     <div style="text-indent: 10px;">
-        <h2 style="margin-left:20px"><?php echo 'Duong';
+        <h2 style="margin-left:20px"><?php echo $currentUser['displayName'];
                                         ?></h2>
         <ul>
             <li><strong>Ngày sinh:</strong> <?php echo $currentUser['DOB'];
