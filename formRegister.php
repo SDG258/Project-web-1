@@ -11,18 +11,61 @@
 <?php
 require_once 'init.php';
 require_once 'functions.php';
-if (isset($_POST['firstName']) && isset($_POST['surname']) && isset($_POST['email']) && isset($_POST['phoneNumber']) && isset($_POST['password']) && isset($_POST['signup'])):
+$firstName="";
+$firstNameError ="";
+$surname="";
+$surnameError ="";
+$email="";
+$emailError ="";
+$phoneNumber="";
+$phoneNumberError ="";
+$password="";
+$passwordError ="";
+if (isset($_POST['signup'])):
+    if (empty($_POST["firstName"])) {
+        $firstNameError = " * First name is required";
+    } else {
+        $firstName = test_input($_POST["firstName"]);
+        if (!preg_match("/^[a-zA-Z ]*$/",$firstName)) {
+            $firstNameError = " * Only letters and white space allowed"; 
+        }
+    }
+    if (empty($_POST["surname"])) {
+        $surnameError = " * Surname is required";
+    } else {
+        $surname = test_input($_POST["surname"]);
+        if (!preg_match("/^[a-zA-Z ]*$/",$surname)) {
+            $surnameError = " * Only letters and white space allowed"; 
+        }
+    }
+    $user = findUserByEmail($email);    
+	if (empty($_POST["email"])) {
+		$emailError = " * Email is required";
+	} else {
+		$email = test_input($_POST["email"]);
+		if (!preg_match("/([\w\-]+\@[\w\-]+\.[\w\-]+)/",$email)) {
+			$emailError = " * Invalid email format";
+        }
+        else if($user){
+            $emailError =" * The account has been duplicated. Please choose another email!";
+        }
+    }
+    if (empty($_POST["phoneNumber"])) {
+		$phoneNumberError = " * Mobile Number Is Required";
+	} else {
+		$phoneNumber = test_input($_POST["phoneNumber"]);		
+		if (!preg_match_all("/^(\+|\d)[0-9]{7,13}$/",$phoneNumber)) {
+			$phoneNumberError = " *  Use Country Code (+84xxxxxxxxxx)"; 
+		}
+	}
+    if (empty($_POST["password"])) {
+        $passwordError = " * Password is required";
+    } else {
+        $password = $_POST['password'];
+    }
 
-    $firstName =  $_POST['firstName'];
-    $surname =  $_POST['surname'];
     $displayName = $firstName. " ".$surname;
     
-
-    $email =  $_POST['email'];
-    $phoneNumber = $_POST['phoneNumber'];
-    $password = $_POST['password'];
-
-
     $inputDay = $_POST['inputDay'];
     $inputMonth = $_POST['inputMonth'];
     $inputYear = $_POST['inputYear'];
@@ -32,42 +75,37 @@ if (isset($_POST['firstName']) && isset($_POST['surname']) && isset($_POST['emai
     $gender = $_POST['gender'];
 
     $success = false;
-
-    $user = findUserByEmail($email);
-    if (!$user) : {
+    if (!$user && isset($_POST['firstName']) && isset($_POST['surname']) && isset($_POST['email']) && isset($_POST['phoneNumber']) && isset($_POST['password'])){
             $newUserID = createUser($firstName, $surname, $displayName, $gender, $email, $password, $DOB, $phoneNumber);
             $success = true;
-        }
-    else : ?>
-        <div class="alert alert-success" role="alert">Tài khoản đã bị trùng!!!Vui lòng nhập Email khác</div>
-<?php endif; ?>
+        }?>
 <?php if ($success) : ?>
     <div class="alert alert-success" role="alert">Vui lòng kiểm tra <a href="https://mail.google.com/mail/u/0/#inbox">gmail</a> để kích hoạt tài khoản</div>
 <?php endif; ?>
-<?php else : ?>
-    <div class="row">
-        <div class="col-md-6">
-            <div style="margin-top: 20%;">
-                <div style="margin-left: 30%;">
-                    <img src="logo.png" width="100%" >
-                    <h3>Gato helps you connect and share with the people in your life.</h3>
+<?php endif; ?>
+    <form action = "formRegister.php" method = "POST">
+        <div class="row">
+            <div class="col-md-6">
+                <div style="margin-top: 20%;">
+                    <div style="margin-left: 30%;">
+                        <img src="logo.png" width="100%" >
+                        <h3>Gato helps you connect and share with the people in your life.</h3>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card" style="margin-top: 30%;">                
-                <div class="card-body">
-                    <form action="formRegister.php" method="POST">
+            <div class="col-md-4">
+                <div class="card" style="margin-top: 30%;">                
+                    <div class="card-body">
                         <div class="form-group">
-                            <div class="form-row">
-                                <div class="col"><input id="firstName" name="firstName" type="text" class="form-control form-control-lg" placeholder="First name"></div>
-                                <div class="col"><input id="surname" name="surname" type="text" class="form-control form-control-lg" placeholder="Surname"></div>
+                            <div class="form-row">                
+                                <div class="col"><input id="firstName" name="firstName" type="text" class="form-control form-control-lg" placeholder="First name"><font color="FF0000"><?php echo $firstNameError;?></font></div>
+                                <div class="col"><input id="surname" name="surname" type="text" class="form-control form-control-lg" placeholder="Surname"><font color="FF0000"><?php echo $surnameError;?></font></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <input id="email" name="email" type="text" class="form-control form-control-lg" style="margin-top: 3%;" placeholder="Email address">
-                            <input id="phoneNumber" name="phoneNumber" type="number" class="form-control form-control-lg" style="margin-top: 3%;" placeholder="Mobile number">
-                            <input id="password" name="password" type="password" class="form-control form-control-lg" style="margin-top: 3%;" placeholder="New Password">
+                            <input id="email" name="email" type="text" class="form-control form-control-lg" style="margin-top: 3%;" placeholder="Email address"><font color="FF0000"><?php echo $emailError;?></font>
+                            <input id="phoneNumber" name="phoneNumber" type="number" class="form-control form-control-lg" style="margin-top: 3%;" placeholder="Mobile number"><font color="FF0000"><?php echo $phoneNumberError;?></font>
+                            <input id="password" name="password" type="password" class="form-control form-control-lg" style="margin-top: 3%;" placeholder="New Password"><font color="FF0000"><?php echo $passwordError;?><br></font>
                             <label style="margin-top: 3%;">Birthday</label>
                             <div class="form-row">
                                 <div class="form-group col-md-4">
@@ -117,10 +155,9 @@ if (isset($_POST['firstName']) && isset($_POST['surname']) && isset($_POST['emai
                                 <button name="signup" type="submit" class="btn btn-success btn-lg btn-block" style="margin-top: 5%;">Sign Up</button>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-<?php endif; ?>
+        </div>        
+    </form>
 <?php include 'footer.php'; ?>
