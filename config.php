@@ -6,9 +6,9 @@ $DB_USER = 'root';
 $DB_PASSWORD = '';
 
 //Email config
-$EMAIL_FROM = 'ltweb1.2019@gmail.com';
-$EMAIL_NAME = 'LT Web 1';
-$EMAIL_PASSWORD = 'ABCxyz123@';
+$EMAIL_FROM = 'huuduong310599@gmail.com';
+$EMAIL_NAME = 'Dương Hữu';
+$EMAIL_PASSWORD = 'ABCxyz@@';
 
 //Base url config
 $BASE_URL = 'http://localhost/deadline/Project';

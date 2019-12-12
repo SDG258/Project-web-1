@@ -1,0 +1,60 @@
+.card {
+    cursor: pointer;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    background-color: #EAEAEA;
+    animation: opacityLeft 1s ease-out;
+  }
+
+  @keyframes opacityLeft {
+    0% {
+      opacity: 0;
+      transform: translateY(100px);
+    }
+    80%{
+      opacity: 1;
+      transform: translateY(-10px);
+    }
+    100%{
+      transform: translateY(0);
+    }
+  }
+
+  .card:hover {
+  box-shadow: 0 4px 8px 0 rgba(59, 21, 21, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  transform: translate(0px,-1px);
+  transition: box-shadow 0.3s ease-out;
+}
+
+.card-horizontal {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.card-text{
+  color: #000000;
+}
+
+body{
+  background-color: #21232d;
+}
+.media{
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+
+
+.btn{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.textcolor{
+color: #ffffff;
+}
+
+
+  
+
+
