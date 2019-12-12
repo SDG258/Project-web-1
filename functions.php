@@ -136,9 +136,35 @@ function loadAvatars($id){
     $stmt->execute(array($id));
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+<<<<<<< HEAD
 function test_input($data) {
 	$data = trim($data);
 	$data = stripslashes($data);
 	$data = htmlspecialchars($data);
 	return $data;
 }
+=======
+
+
+function sendFriendRequest($userId1, $userId2)
+{
+  global $db;
+  $stmt = $db->prepare("INSERT INTO friendship (userId1,userId2) VALUES (?, ?) ");
+  $stmt->execute(array($userId1, $userId2));
+}
+
+function removeFriendRequest($userId1, $userId2)
+{
+  global $db;
+  $stmt = $db->prepare("DELETE FROM friendship WHERE (userId1 = ? AND userId2=?) OR (userId2 = ? AND userId1=?) ");
+  $stmt->execute(array($userId1, $userId2,$userId1, $userId2));
+}
+
+function getFriendShip($userId1,$userId2)
+{
+  global $db;
+  $stmt = $db->prepare("SELECT * FROM friendship WHERE userId1 = ? AND userId2=?");
+  $stmt->execute(array($userId1, $userId2));
+  return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+>>>>>>> d70afef86318496df0b2b61e18d675ee7709d3e3
