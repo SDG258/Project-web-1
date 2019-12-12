@@ -11,34 +11,28 @@
 <?php
 require_once 'init.php';
 require_once 'functions.php';
-$firstName="";
+$firstName=null;
 $firstNameError ="";
-$surname="";
+$surname=null;
 $surnameError ="";
-$email="";
+$email=null;
 $emailError ="";
-$phoneNumber="";
+$phoneNumber=null;
 $phoneNumberError ="";
-$password="";
+$password=null;
 $passwordError ="";
 if (isset($_POST['signup'])):
+    $flag = false;
     if (empty($_POST["firstName"])) {
         $firstNameError = " * First name is required";
     } else {
         $firstName = test_input($_POST["firstName"]);
-        if (!preg_match("/^[a-zA-Z ]*$/",$firstName)) {
-            $firstNameError = " * Only letters and white space allowed"; 
-        }
     }
     if (empty($_POST["surname"])) {
         $surnameError = " * Surname is required";
     } else {
         $surname = test_input($_POST["surname"]);
-        if (!preg_match("/^[a-zA-Z ]*$/",$surname)) {
-            $surnameError = " * Only letters and white space allowed"; 
-        }
     }
-    $user = findUserByEmail($email);    
 	if (empty($_POST["email"])) {
 		$emailError = " * Email is required";
 	} else {
@@ -46,12 +40,16 @@ if (isset($_POST['signup'])):
 		if (!preg_match("/([\w\-]+\@[\w\-]+\.[\w\-]+)/",$email)) {
 			$emailError = " * Invalid email format";
         }
-        else if($user){
+        $user = findUserByEmail($email);
+        if($user){
             $emailError =" * The account has been duplicated. Please choose another email!";
+        }
+        else if(!$user){
+            $flag = true;
         }
     }
     if (empty($_POST["phoneNumber"])) {
-		$phoneNumberError = " * Mobile Number Is Required";
+		$phoneNumberError = " * Mobile Number is Required";
 	} else {
 		$phoneNumber = test_input($_POST["phoneNumber"]);		
 		if (!preg_match_all("/^(\+|\d)[0-9]{7,13}$/",$phoneNumber)) {
@@ -75,7 +73,7 @@ if (isset($_POST['signup'])):
     $gender = $_POST['gender'];
 
     $success = false;
-    if (!$user && isset($_POST['firstName']) && isset($_POST['surname']) && isset($_POST['email']) && isset($_POST['phoneNumber']) && isset($_POST['password'])){
+    if (!$user && $flag && isset($_POST['firstName']) && isset($_POST['surname']) && isset($_POST['email']) && isset($_POST['phoneNumber']) && isset($_POST['password'])){
             $newUserID = createUser($firstName, $surname, $displayName, $gender, $email, $password, $DOB, $phoneNumber);
             $success = true;
         }?>

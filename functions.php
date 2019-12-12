@@ -42,10 +42,10 @@ function createUser($firstName, $surname, $displayName, $gender, $email, $passwo
     sendEmail($email, $displayName, 'Kích hoạt tài khoản', "Để kích hoạt tài khoản vui lòng ấn vào đường link: <a href = \"$BASE_URL/activate.php?code=$code&&email=$email\">$BASE_URL/activate.php?code=$code&&email=$email</a>");
     return $id;
 }
-function updateProfile($displayName, $DOB, $phoneNumber, $mime, $avatars, $id){
+function updateProfile($firstName, $surname, $displayName, $DOB, $phoneNumber, $mime, $avatars, $id){
     global $db;
-    $stmt = $db->prepare("UPDATE `user` SET `displayName` = ?, `DOB` = ?, `phoneNumber` = ?, `mime` = ?, `avatars` =  ? WHERE `user`.`id` = ?");
-    return $stmt->execute(array($displayName, $DOB, $phoneNumber, $mime, $avatars, $id));
+    $stmt = $db->prepare("UPDATE `user` SET `firstName`= ?, `surname` = ?, `displayName` = ?, `DOB` = ?, `phoneNumber` = ?, `mime` = ?, `avatars` =  ? WHERE `user`.`id` = ?");
+    return $stmt->execute(array($firstName, $surname, $displayName, $DOB, $phoneNumber, $mime, $avatars, $id));
 }
 function getNewFeeds(){
     global $db;
@@ -136,16 +136,12 @@ function loadAvatars($id){
     $stmt->execute(array($id));
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
-<<<<<<< HEAD
 function test_input($data) {
 	$data = trim($data);
 	$data = stripslashes($data);
 	$data = htmlspecialchars($data);
 	return $data;
 }
-=======
-
-
 function sendFriendRequest($userId1, $userId2)
 {
   global $db;
@@ -167,4 +163,3 @@ function getFriendShip($userId1,$userId2)
   $stmt->execute(array($userId1, $userId2));
   return $stmt->fetch(PDO::FETCH_ASSOC);
 }
->>>>>>> d70afef86318496df0b2b61e18d675ee7709d3e3

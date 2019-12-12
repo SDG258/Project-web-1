@@ -7,10 +7,13 @@ if (!$currentUser) {
 ?>
 <?php include 'header.php'; ?>
 <h1 class='textcolor'>Quản lý thông tin cá nhân</h1>
-<?php if (isset($_POST['displayName'])) : ?>
+<?php if (isset($_POST['firstName']) && isset($_POST['surname'])) : ?>
     <?php
-        $displayName = $_POST['displayName'];
+    
+        $firstName = $_POST['firstName'];
+        $surname = $_POST['surname'];
         $phoneNumber = $_POST['phoneNumber'];
+        $displayName = $firstName. " ".$surname;
         $DOB = $_POST['DOB'];
 
         $success = false;
@@ -24,7 +27,7 @@ if (!$currentUser) {
             $avatar = file_get_contents($fileTemp);
 
             if ($displayName != null) {
-                updateProfile($displayName, $DOB, $phoneNumber, $fileType, $avatar, $currentUser['id']);
+                updateProfile($firstName, $surname, $displayName, $DOB, $phoneNumber, $fileType, $avatar, $currentUser['id']);
                 $success = true;
             }
         }
@@ -38,7 +41,12 @@ if (!$currentUser) {
     <form class='textcolor' action="updateProfile.php" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="displayName">Họ tên</label>
-            <input type="text" class="form-control" id="displayName" name="displayName" planceholder="Họ tên" value="<?php echo $currentUser['displayName']; ?>">
+            <div class="form-row">
+                <div class="col"><input id="firstName" name="firstName" type="text" class="form-control" placeholder="First name" value="<?php echo $currentUser['firstName']; ?>">
+                </div>
+                <div class="col"><input id="surname" name="surname" type="text" class="form-control" placeholder="Surname" value="<?php echo $currentUser['surname']; ?>">
+                </div>
+            </div>
         </div>
         <div class="form-group">
             <label for="DOB">Ngày tháng năm sinh</label>

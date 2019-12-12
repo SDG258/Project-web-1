@@ -13,17 +13,18 @@
     <?php
     require_once 'init.php';
     require_once 'functions.php';
-    $email =  $_POST['email'];
+
     $emailError = "";
-    $password = $_POST['password'];
     $passwordError = "";
     if (isset($_POST['login'])) :
+        $email = $_POST['email'];
         $user = findUserByEmail($email);
         if (empty($_POST["email"])) {
             $emailError = " * Email is required";
         } else if (!$user) {
             $emailError = " * Email not found in the system. Please register for an account";
         }
+        $password = $_POST['password'];
         if (empty($_POST["password"])) {
             $passwordError = " * Password is required";
         } else if (!password_verify($password, $user['password'])) {
