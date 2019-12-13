@@ -6,16 +6,28 @@ $posts = getNewFeeds();
 ?>
 <?php if ($currentUser) : ?>
     <div class="row-">
-        <form class='textcolor' action="createPost.php" method="POST">
-        <div style="margin-top :20px;">
-                <div class="input-group mb-3">
+        <div class="card">
+            <form class='textcolor' enctype="multipart/form-data" action="createPost.php" method="POST">
+
+                <div class="col-sm-6" style="margin-top: 10px">
                     <textarea class="form-control " name="content" id="content" rows="3" placeholder="Bạn đang nghĩ gì ?"></textarea>
                 </div>
-                <div class="input-group-append">
+                <div class="row" style="margin-top: 10px">
+                    <div class="col-sm-4" style="margin-top: 10px">
+                        <select style="background: transparent; border:5px solid #E50239;" name="privacy">
+                            <option value="Public"> Public </option>
+                            <option value="Private"> Only me </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4" style="margin-top: 10px">
+                        <input type="file" class="form-control-file" id="image" name="image">
+                    </div>
+                    <div class="col-sm-4">
                         <button type="submit" class="btn btn-primary ">Đăng nội dung</button>
-                 </div>
-            </div>
-        </form>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 
     <div class="row">

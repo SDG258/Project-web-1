@@ -59,10 +59,10 @@ function getMyStatus($userID){
     $stmt->execute(array($userID));
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-function createPost($userID, $content){
+function createPost($userID, $content,$image,$privacy){
     global $db;
-    $stmt = $db->prepare("INSERT INTO posts (content, userID) VALUES (? ,? )");
-    $stmt->execute(array($content, $userID));
+    $stmt = $db->prepare("INSERT INTO posts (content, userID,image,privacy) VALUES (? ,? ,? ,?)");
+    $stmt->execute(array($content, $userID,$image,$privacy));
 }
 function generateRandomString($length = 10) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
