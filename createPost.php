@@ -13,7 +13,7 @@
     $image = file_get_contents($fileTemp);
  
     if(!empty(trim( $content))){
-        createPost($currentUser['id'], $content,$image,$privacy);
+        createPost($currentUser['id'], $content,$fileType,$image,$privacy);
     }
    
     header('Location: home.php');

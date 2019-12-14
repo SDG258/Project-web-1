@@ -49,7 +49,7 @@ function updateProfile($firstName, $surname, $displayName, $DOB, $phoneNumber, $
 }
 function getNewFeeds(){
     global $db;
-    $stmt = $db->query("SELECT p.*, u.displayName, u.id FROM posts AS p JOIN user AS u ON p.userID = u.id ORDER BY createdAt DESC");
+    $stmt = $db->query("SELECT p.*, u.displayName, u.id as idAvatar FROM posts AS p JOIN user AS u ON p.userID = u.id ORDER BY createdAt DESC");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -59,10 +59,10 @@ function getMyStatus($userID){
     $stmt->execute(array($userID));
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-function createPost($userID, $content,$image,$privacy){
+function createPost($userID, $content,$mime,$image,$privacy){
     global $db;
-    $stmt = $db->prepare("INSERT INTO posts (content, userID,image,privacy) VALUES (? ,? ,? ,?)");
-    $stmt->execute(array($content, $userID,$image,$privacy));
+    $stmt = $db->prepare("INSERT INTO posts (content, userID,mime,image,privacy) VALUES (? ,? ,? ,? ,?)");
+    $stmt->execute(array($content, $userID, $mime, $image, $privacy));
 }
 function generateRandomString($length = 10) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -136,6 +136,14 @@ function loadAvatars($id){
     $stmt->execute(array($id));
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+function loadImage($id){
+    global $db;
+    $stmt =$db->prepare("select * from posts where id = ?");
+    $stmt->execute(array($id));
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
 function test_input($data) {
 	$data = trim($data);
 	$data = stripslashes($data);

@@ -32,22 +32,25 @@ $posts = getNewFeeds();
 
     <div class="row">
         <?php foreach ($posts as $post) : ?>
-           <?php $id=$post['id']; ?>
+            <?php $id = $post['idAvatar']; ?>
             <div class="container-fluid">
-                <div class="card">
+                <div class="card mb-3">
                     <div class="card-horizontal">
                         <div class="img-square-wrapper">
-                            <img style="float: left;width: 150px;height:200px" src="avatar.php<?php echo "?id=";echo $post['id']; ?>">
+                            <img class="rounded-circle" style="float: left;width: 100px;height:100px;margin:10px;" src="avatar.php<?php echo "?id=";
+                                                                                                                            echo $post['idAvatar']; ?>">
                         </div>
-                        <div style="margin-left:10px;" class="card-body">
-                            <h1 class="card-title"> 
-                                <a href= "<?php echo $post['id'] == $currentUser['id'] ? "personal.php" :"profile.php?id=$id";?>">
-                                <?php echo $post['displayName']; ?>
+                        <div class="card-body col-md-6">
+                            <h1 class="card-title">
+                                <a href="<?php echo $post['idAvatar'] == $currentUser['id'] ? "personal.php" : "profile.php?id=$id"; ?>">
+                                    <?php echo $post['displayName']; ?>
 
-                                
-                        </a></h1>
+                                </a>
+                            </h1>
                             <small class="text-muted">Đăng lúc: <?php echo $post['createdAt']; ?></small>
                             <p class="card-text"><?php echo $post['content']; ?></p>
+                            <img style="width: 150px;height:200px" src="image.php<?php echo "?id=";
+                                                                                            echo $post['id']; ?>">
                         </div>
                     </div>
                 </div>
