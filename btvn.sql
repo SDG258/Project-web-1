@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 14, 2019 at 09:47 AM
+-- Generation Time: Dec 20, 2019 at 08:55 AM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -25,6 +25,22 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `comments`
+--
+
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE IF NOT EXISTS `comments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `postId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `friendship`
 --
 
@@ -34,6 +50,20 @@ CREATE TABLE IF NOT EXISTS `friendship` (
   `userId2` int(11) NOT NULL,
   `createAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`userId1`,`userId2`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `likes`
+--
+
+DROP TABLE IF EXISTS `likes`;
+CREATE TABLE IF NOT EXISTS `likes` (
+  `postId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `action` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`postId`,`userId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
