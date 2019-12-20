@@ -55,7 +55,7 @@ function getNewFeeds(){
 
 function getMyStatus($userID){
     global $db;
-    $stmt = $db->prepare("SELECT p.*, u.displayName, u.id, u.DOB  FROM posts AS p JOIN user AS u ON p.userID = u.id Where u.id = ? ORDER BY createdAt DESC");
+    $stmt = $db->prepare("SELECT p.*, u.displayName, u.id as idAvatar, u.DOB  FROM posts AS p JOIN user AS u ON p.userID = u.id Where u.id = ? ORDER BY createdAt DESC");
     $stmt->execute(array($userID));
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -170,4 +170,53 @@ function getFriendShip($userId1,$userId2)
   $stmt = $db->prepare("SELECT * FROM friendship WHERE userId1 = ? AND userId2=?");
   $stmt->execute(array($userId1, $userId2));
   return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+
+
+function addCommentToPost($postId,$userId,$content)
+{
+    global $db;
+    $stmt = $db->prepare("INSERT INTO comments (postId,userId,content) VALUES (?, ?, ?) ");
+    $stmt->execute(array($postId,$userId,$content));
+}
+
+function getCommentOfPost($postId)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT u.*,c.content,c.createdAt  FROM comments AS c JOIN user AS u ON c.userId = u.id WHERE c.postId = ? ORDER BY c.createdAt DESC");
+    $stmt->execute(array($postId));
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getCountCommentOfPost($postId)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT COUNT(*) as totalComment FROM comments WHERE postId = ? ");
+    $stmt->execute(array($postId));
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getLikeOfPost($postId)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT COUNT(*) as totalLike FROM likes WHERE postId = ? ");
+    $stmt->execute(array($postId));
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function loadAllUser($currentUserId)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT *  FROM user WHERE id != ?");
+    $stmt->execute(array($currentUserId));
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function loadPostForProfile($id)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT p.*, u.displayName, u.id as idAvatar, u.DOB  FROM posts as p JOIN user as u ON p.userID = u.id WHERE userID = ? AND (privacy= 'Public' OR  privacy ='Friend' )");
+    $stmt->execute(array($id));
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }

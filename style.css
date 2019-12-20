@@ -3,7 +3,7 @@
     margin-bottom: 20px;
     margin-top: 20px;
     background-color: #EAEAEA;
-    animation: opacityLeft 1s ease-out;
+    animation: opacityLeft 1s ease-out; 
   }
 
   @keyframes opacityLeft {
@@ -41,20 +41,16 @@ body{
 .media{
   margin-top: 20px;
   margin-bottom: 10px;
-  border: 2px solid #ffffff;
   color: #ffffff;
 }
 
-
-.btn{
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
 .textcolor{
   color: #DB4A26;
 }
 
-
+.image-upload>input {
+  display: none;
+}
   
 
 
