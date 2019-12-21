@@ -220,3 +220,30 @@ function loadPostForProfile($id)
     $stmt->execute(array($id));
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+function userLike($postId,$userId)
+{
+    
+    global $db;
+    $stmt = $db->prepare("SELECT *FROM likes WHERE postId=? and userId=?");
+    $stmt->execute(array($postId,$userId));
+    if($stmt->fetchAll(PDO::FETCH_ASSOC)) 
+    {
+        return true;
+    }
+    return false;
+}
+function addOrRemoveLike($postId,$userId)
+{
+    global $db;
+    if(userLike($postId,$userId))
+    {
+        $stmt = $db->prepare("DELETE FROM likes WHERE postId=? and userId=?");
+        $stmt->execute(array($postId,$userId));
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    else{
+        $stmt = $db->prepare("INSERT INTO likes (postId,userId) VALUES (?, ?)");
+        $stmt->execute(array($postId,$userId));
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+}

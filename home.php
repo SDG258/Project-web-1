@@ -82,7 +82,13 @@ $posts = getNewFeeds();
                             <div class="col-sm-6">
                                 <form enctype="multipart/form-data" action="like.php" method="POST">
                                     <input type="hidden" name="postId" value="<?php echo $post['id']; ?>">
-                                    <button name="like" type="submit"> <i class="far fa-thumbs-up"></i></button>
+                                    <button name="like" type="submit"> <i 
+                                    <?php if (userLike($post['id'],$currentUser['id'])):?>
+                                        class="fas fa-thumbs-up"
+                                    <?php else:?>
+                                        class="far fa-thumbs-up"
+                                    <?php endif;?>
+                                    ></i></button>
                                     <?php $countLike = getLikeOfPost($post['id']) ?>
                                     <?php echo "(" . $countLike[0]["totalLike"] . ")"; ?>
                                 </form>

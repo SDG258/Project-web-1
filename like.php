@@ -7,10 +7,9 @@
     
     $postId=$_POST['postId'];
     $userId = $currentUser['id'];
+    var_dump($postId,$userId);
 
-    if(!empty(trim($content))){
-        addCommentToPost($postId,$userId,$content);
-    }
+    addOrRemoveLike($postId, $userId);
    
     header('Location: home.php');
 ?>
