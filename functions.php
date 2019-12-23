@@ -155,6 +155,9 @@ function sendFriendRequest($userId1, $userId2)
   global $db;
   $stmt = $db->prepare("INSERT INTO friendship (userId1,userId2) VALUES (?, ?) ");
   $stmt->execute(array($userId1, $userId2));
+
+  sendNotificationAddFriend($userId1, $userId2);
+  
 }
 
 function removeFriendRequest($userId1, $userId2)
@@ -246,4 +249,14 @@ function addOrRemoveLike($postId,$userId)
         $stmt->execute(array($postId,$userId));
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+}
+function sendNotificationAddFriend($fromUserId,$toUserId)
+{
+    global $BASE_URL;
+    $user=findUserById($toUserId);
+    $currentUser=findUserById($fromUserId);
+
+    sendEmail($user['email'],$user['displayName'],'Lời mời kết bạn', $currentUser['displayName'] ." đã gửi cho bạn một lời mời kết bạn.Link đến trang cá nhân: 
+    <a href = \"$BASE_URL/profile.php?id=$fromUserId\">$BASE_URL/profile.php?id=$fromUserId</a>");
+   
 }
