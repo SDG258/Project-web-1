@@ -120,6 +120,8 @@ $isFollower = getFriendShip($userId, $currentUser['id']);
                     <div class="col-sm-6">
                         <form enctype="multipart/form-data" action="like.php" method="POST">
                             <input type="hidden" name="postId" value="<?php echo $post['id']; ?>">
+                            <input type="hidden" name="page" value="profile">
+                            <input type="hidden" name="profileId" value=<?php echo $userId ?>>
                             <button name="like" type="submit"> <i class="far fa-thumbs-up"></i></button>
                             <?php $countLike = getLikeOfPost($post['id']) ?>
                             <?php echo "(" . $countLike[0]["totalLike"] . ")"; ?>
@@ -139,6 +141,8 @@ $isFollower = getFriendShip($userId, $currentUser['id']);
 
                         <div class="input-group-append">
                             <input type="hidden" name="postId" value="<?php echo $post['id']; ?>">
+                            <input type="hidden" name="page" value="profile">
+                            <input type="hidden" name="profileId" value=<?php echo $userId ?>>
                             <button type="submit" class="btn btn-primary ">Bình luận</button>
                         </div>
                     </div>

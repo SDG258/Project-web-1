@@ -15,6 +15,7 @@ $posts = getNewFeedsOfCurrentUser($currentUser['id']);
                         <div class="input-group input-group-sm mb-0 " style="margin: 10px;">
                             <textarea class="form-control form-control-sm " name="content" id="content" rows="3" placeholder="Bạn đang nghĩ gì ?"></textarea>
                             <div class="input-group-append" style="margin-right:20px;">
+                                <input type="hidden" name="page" value="home">
                                 <button type="submit" class="btn btn-primary ">Đăng nội dung</button>
                             </div>
                         </div>
@@ -82,13 +83,8 @@ $posts = getNewFeedsOfCurrentUser($currentUser['id']);
                             <div class="col-sm-6">
                                 <form enctype="multipart/form-data" action="like.php" method="POST">
                                     <input type="hidden" name="postId" value="<?php echo $post['id']; ?>">
-                                    <button name="like" type="submit"> <i 
-                                    <?php if (userLike($post['id'],$currentUser['id'])):?>
-                                        class="fas fa-thumbs-up"
-                                    <?php else:?>
-                                        class="far fa-thumbs-up"
-                                    <?php endif;?>
-                                    ></i></button>
+                                    <input type="hidden" name="page" value="home">
+                                    <button name="like" type="submit"> <i <?php if (userLike($post['id'], $currentUser['id'])) : ?> class="fas fa-thumbs-up" <?php else : ?> class="far fa-thumbs-up" <?php endif; ?>></i></button>
                                     <?php $countLike = getLikeOfPost($post['id']) ?>
                                     <?php echo "(" . $countLike[0]["totalLike"] . ")"; ?>
                                 </form>
@@ -107,6 +103,7 @@ $posts = getNewFeedsOfCurrentUser($currentUser['id']);
 
                                 <div class="input-group-append">
                                     <input type="hidden" name="postId" value="<?php echo $post['id']; ?>">
+                                    <input type="hidden" name="page" value="home">
                                     <button type="submit" class="btn btn-primary ">Bình luận</button>
                                 </div>
                             </div>
@@ -116,7 +113,7 @@ $posts = getNewFeedsOfCurrentUser($currentUser['id']);
                         <?php foreach ($comments as $comment) : ?>
                             <?php $id = $comment['id']; ?>
                             <div class="container">
-                                <div class="media" >
+                                <div class="media">
                                     <div class="media-left">
                                         <img class="rounded-circle" style="float: left;width: 50px;height:50px;" src="avatar.php<?php echo "?id=";
                                                                                                                                 echo $comment['id']; ?>">

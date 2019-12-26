@@ -34,6 +34,7 @@ $posts = getMyStatus($currentUser['id']);
             <div class="input-group input-group-sm mb-0 " style="margin: 10px;">
                 <textarea class="form-control form-control-sm " name="content" id="content" rows="3" placeholder="Bạn đang nghĩ gì ?"></textarea>
                 <div class="input-group-append" style="margin-right:20px;">
+                    <input type="hidden" name="page" value="personal">
                     <button type="submit" class="btn btn-primary ">Đăng nội dung</button>
                 </div>
             </div>
@@ -100,6 +101,7 @@ $posts = getMyStatus($currentUser['id']);
                     <div class="col-sm-6">
                         <form enctype="multipart/form-data" action="like.php" method="POST">
                             <input type="hidden" name="postId" value="<?php echo $post['id']; ?>">
+                            <input type="hidden" name="page" value="personal">
                             <button name="like" type="submit"> <i class="far fa-thumbs-up"></i></button>
                             <?php $countLike = getLikeOfPost($post['id']) ?>
                             <?php echo "(" . $countLike[0]["totalLike"] . ")"; ?>
@@ -119,6 +121,7 @@ $posts = getMyStatus($currentUser['id']);
 
                         <div class="input-group-append">
                             <input type="hidden" name="postId" value="<?php echo $post['id']; ?>">
+                            <input type="hidden" name="page" value="personal">
                             <button type="submit" class="btn btn-primary ">Bình luận</button>
                         </div>
                     </div>
