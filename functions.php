@@ -260,3 +260,38 @@ function sendNotificationAddFriend($fromUserId,$toUserId)
     <a href = \"$BASE_URL/profile.php?id=$fromUserId\">$BASE_URL/profile.php?id=$fromUserId</a>");
    
 }
+
+function getNewFeedsOfCurrentUser($userId) {
+    global $db;
+    $friends = getFriends($userId);
+    $friendIds = array();
+    foreach ($friends as $friend) {
+      $friendIds[] = $friend['id'];
+    }
+    $friendIds[] = $userId;
+    $stmt = $db->prepare("SELECT p.*, u.displayName , u.id as idAvatar FROM posts as p LEFT JOIN user as u ON u.id = p.userId WHERE p.userId IN (" . implode(',', $friendIds) .  ") ORDER BY createdAt DESC");
+    $stmt->execute();
+    $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $posts;
+  }
+
+  function getFriends($userId) {
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM friendship WHERE userId1 = ? OR userId2 = ?");
+    $stmt->execute(array($userId, $userId));
+    $followings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $friends = array();
+    for ($i = 0; $i < count($followings); $i++) {
+      $row1 = $followings[$i];
+      if ($userId == $row1['userId1']) {
+        $userId2 = $row1['userId2'];
+        for ($j = 0; $j < count($followings); $j++) {
+          $row2 = $followings[$j];
+          if ($userId == $row2['userId2'] && $userId2 == $row2['userId1']) {
+            $friends[] = findUserById($userId2);
+          }
+        }
+      }
+    }
+    return $friends;
+  }

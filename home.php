@@ -2,7 +2,7 @@
 require_once 'init.php';
 include 'header.php';
 
-$posts = getNewFeeds();
+$posts = getNewFeedsOfCurrentUser($currentUser['id']);
 ?>
 <?php if ($currentUser) : ?>
     <div class="col-sm-12">
