@@ -66,10 +66,17 @@ $isFollower = getFriendShip($userId, $currentUser['id']);
 
 
     <?php if (!$isFollowing && !$isFollower) : ?>
-        <form method="POST" action="add-friend.php" style="margin:10px;">
-            <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
-            <button type="submit" class="btn btn-primary">Kết bạn</button>
-        </form>
+        <div class="row">
+            <form method="POST" action="add-friend.php" style="margin:10px;">
+                <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
+                <button type="submit" class="btn btn-primary">Kết bạn</button>
+            </form>
+            <form method="POST" action="messager.php" style="margin-left: 3%">
+                <?php $_SESSION['id'] = $_GET['id']; ?>
+                <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
+                <button type="submit" name="sendMessage" class="btn btn-primary">Nhắn tin</button>
+            </form>
+        </div>
     <?php endif; ?>
 
 <?php endif; ?>
@@ -122,7 +129,7 @@ $isFollower = getFriendShip($userId, $currentUser['id']);
                             <input type="hidden" name="postId" value="<?php echo $post['id']; ?>">
                             <input type="hidden" name="page" value="profile">
                             <input type="hidden" name="profileId" value=<?php echo $userId ?>>
-                            <button name="like" type="submit"> <i <?php if (userLike($post['id'], $currentUser['id'])) : ?> class="fas fa-thumbs-up" <?php else : ?> class="far fa-thumbs-up" <?php endif; ?>></i></button>                            
+                            <button name="like" type="submit"> <i <?php if (userLike($post['id'], $currentUser['id'])) : ?> class="fas fa-thumbs-up" <?php else : ?> class="far fa-thumbs-up" <?php endif; ?>></i></button>
                             <?php $countLike = getLikeOfPost($post['id']) ?>
                             <?php echo "(" . $countLike[0]["totalLike"] . ")"; ?>
                         </form>
