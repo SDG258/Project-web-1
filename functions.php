@@ -216,13 +216,22 @@ function loadAllUser($currentUserId)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function loadPostForProfile($id)
+function loadPostOfUserForFriends($id)
 {
     global $db;
     $stmt = $db->prepare("SELECT p.*, u.displayName, u.id as idAvatar, u.DOB  FROM posts as p JOIN user as u ON p.userID = u.id WHERE userID = ? AND (privacy= 'Public' OR  privacy ='Friend' )");
     $stmt->execute(array($id));
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function loadPostOfUserForEveryOne($id)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT p.*, u.displayName, u.id as idAvatar, u.DOB  FROM posts as p JOIN user as u ON p.userID = u.id WHERE userID = ? AND privacy= 'Public' ");
+    $stmt->execute(array($id));
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function userLike($postId,$userId)
 {
     
