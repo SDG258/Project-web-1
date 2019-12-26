@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 20, 2019 at 08:55 AM
+-- Generation Time: Dec 26, 2019 at 06:43 AM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -62,7 +62,6 @@ DROP TABLE IF EXISTS `likes`;
 CREATE TABLE IF NOT EXISTS `likes` (
   `postId` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
-  `action` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`postId`,`userId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
