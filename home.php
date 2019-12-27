@@ -2,7 +2,13 @@
 require_once 'init.php';
 include 'header.php';
 
-$posts = getNewFeedsOfCurrentUser($currentUser['id']);
+$limit=10;
+$pagenum = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
+$posts = getNewFeedsOfCurrentUserWithPagging($currentUser['id'],$limit,$pagenum);
+
+$totalPost = intval(getTotalPostOfNewfeed($currentUser['id'])[0]['total_post']);
+$totalPage= intval($totalPost % $limit != 0 ? $totalPost / $limit + 1 : $totalPost / $limit);
+
 ?>
 <?php if ($currentUser) : ?>
     <div class="col-sm-12">
@@ -138,6 +144,15 @@ $posts = getNewFeedsOfCurrentUser($currentUser['id']);
                 </div>
             <?php endforeach ?>
         </div>
+        <ul class="pagination justify-content-center" style="margin:30px ">
+            <?php if ($pagenum - 1 > 0) : ?>
+                <li class="page-item"> <a class="page-link" href="home.php?page=<?php echo $pagenum - 1; ?>">Trang Trước</a></li>
+            <?php endif; ?>
+
+            <?php if ($pagenum < $totalPage) : ?>
+                <li class="page-item"> <a class="page-link" href="home.php?page=<?php echo $pagenum + 1; ?>">Trang Kế</a></li>
+            <?php endif; ?>
+        </ul>
     </div>
 <?php endif ?>
 <?php include 'footer.php'; ?>

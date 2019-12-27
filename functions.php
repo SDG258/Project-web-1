@@ -304,3 +304,32 @@ function getNewFeedsOfCurrentUser($userId) {
     }
     return $friends;
   }
+
+  function getTotalPostOfNewfeed($userId)
+  {
+    global $db;
+    $friends = getFriends($userId);
+    $friendIds = array();
+    foreach ($friends as $friend) {
+      $friendIds[] = $friend['id'];
+    }
+    $friendIds[] = $userId;
+    $stmt = $db->prepare("SELECT COUNT(*) as total_post FROM posts as p LEFT JOIN user as u ON u.id = p.userId WHERE p.userId IN (" . implode(',', $friendIds) .  ") ORDER BY createdAt DESC");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  function getNewFeedsOfCurrentUserWithPagging($userId,$limit,$page) {
+    global $db;
+    $friends = getFriends($userId);
+    $friendIds = array();
+    foreach ($friends as $friend) {
+      $friendIds[] = $friend['id'];
+    }
+    $friendIds[] = $userId;
+    $calc_page=intval(($page-1)*$limit);
+    
+    $stmt = $db->prepare("SELECT p.*, u.displayName , u.id as idAvatar FROM posts as p LEFT JOIN user as u ON u.id = p.userId WHERE p.userId IN (" . implode(',', $friendIds) .  ") ORDER BY createdAt DESC LIMIT $calc_page , $limit");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
