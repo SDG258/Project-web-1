@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 26, 2019 at 12:38 PM
+-- Generation Time: Dec 27, 2019 at 01:18 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -52,6 +52,22 @@ CREATE TABLE IF NOT EXISTS `friendship` (
   PRIMARY KEY (`userId1`,`userId2`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `friendship`
+--
+
+INSERT INTO `friendship` (`userId1`, `userId2`, `createAt`) VALUES
+(1, 2, '2019-12-27 10:27:56'),
+(2, 1, '2019-12-27 10:28:12'),
+(1, 3, '2019-12-27 10:34:29'),
+(3, 2, '2019-12-27 10:34:09'),
+(3, 1, '2019-12-27 10:34:53'),
+(2, 3, '2019-12-27 10:35:21'),
+(4, 2, '2019-12-27 12:00:26'),
+(2, 4, '2019-12-27 12:00:45'),
+(3, 4, '2019-12-27 18:50:48'),
+(4, 3, '2019-12-27 18:51:00');
+
 -- --------------------------------------------------------
 
 --
@@ -74,12 +90,23 @@ CREATE TABLE IF NOT EXISTS `likes` (
 DROP TABLE IF EXISTS `message`;
 CREATE TABLE IF NOT EXISTS `message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `fromUserID` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `toUserID` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `message` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fromUserID` int(11) NOT NULL,
+  `toUserID` int(11) NOT NULL,
+  `content` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deleteUserID` int(11) DEFAULT NULL,
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=185 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `message`
+--
+
+INSERT INTO `message` (`id`, `fromUserID`, `toUserID`, `content`, `deleteUserID`, `createdAt`) VALUES
+(181, 4, 2, 'xx', NULL, '2019-12-27 19:01:33'),
+(182, 4, 3, 'cc', NULL, '2019-12-27 19:01:50'),
+(183, 4, 3, 'lone', NULL, '2019-12-27 19:02:30'),
+(184, 4, 2, 'duma cái cc', NULL, '2019-12-27 19:44:27');
 
 -- --------------------------------------------------------
 
@@ -111,7 +138,14 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `image` mediumblob,
   `privacy` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`,`userID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `posts`
+--
+
+INSERT INTO `posts` (`id`, `content`, `userID`, `createdAt`, `mime`, `image`, `privacy`) VALUES
+(7, 'cc', 4, '2019-12-27 20:06:21', '', '', 'Public');
 
 -- --------------------------------------------------------
 
@@ -135,7 +169,16 @@ CREATE TABLE IF NOT EXISTS `user` (
   `mime` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `avatars` mediumblob,
   PRIMARY KEY (`id`,`email`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `firstName`, `surname`, `displayName`, `gender`, `email`, `password`, `DOB`, `phoneNumber`, `status`, `code`, `mime`, `avatars`) VALUES
+(2, 'Hữu', 'Duong', 'Hữu Duong', 'female', 'huuduong3105@gmail.com', '$2y$10$FTphhdhnrxYUE5adYXGWluKfiipV75IB9vcTZXLqcFl/GwuxDJ/gC', '2019-01-01', '1234567890', 1, '', '', NULL),
+(3, 'Nguyen', 'Du', 'Nguyen Du', 'female', 'songdu2802@gmail.com', '$2y$10$9Wrb5WxoAweh1lW5LivpgejaffrZVoxDzMBOkjQuvFng8qQB.xti6', '2019-01-01', '213123123', 1, '', NULL, NULL),
+(4, 'Nguyen', 'Song Du', 'Nguyen Song Du', 'female', 'nsdu.17ck1@gmail.com', '$2y$10$2zCBolBFxKcR5oZeKf8JXOkJjy.1DuzTS3z10TwYbZCBXlv0dlR8y', '2019-01-01', '234234234', 1, '', NULL, NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
