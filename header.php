@@ -48,6 +48,9 @@
                         <li class="nav-item<?php echo $page == 'friendSuggestions' ? 'active' : '' ?>">
                             <a class="nav-link" href="friendSuggestions.php"><strong> Gợi ý kết bạn</strong></a>
                         </li>
+                        <li class="nav-item<?php echo $page == 'Messager' ? 'active' : '' ?>">
+                            <a class="nav-link" href="formMessager.php"><strong> Tin nhắn</strong></a>
+                        </li>
                         <li class="nav-item<?php echo $page == 'logout' ? 'active' : '' ?>">
                             <a class="nav-link" href="logout.php"> <strong>Đăng xuất<?php echo  $currentUser ? '(' . $currentUser['displayName'] . ')' : '' ?></strong></a>
                         </li>
