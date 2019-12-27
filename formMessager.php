@@ -12,9 +12,15 @@ if (!$currentUser) {
 }
 
 $messages = loadAllMessage($currentUser['id']);
+if(isset($_POST['send'])){
+    $id = $_POST['send'];
+    $_SESSION['id'] =  $id;
+    header('Location:messager.php');
+}
 ?>
 <div class="row">
     <?php foreach ($messages  as $message) : ?>
+        <form action="formMessager.php" method="POST" enctype="multipart/form-data">
         <?php $id = $message['toUserID']; ?>
         <div class="container-fluid">
             <div class="card mb-3">
@@ -25,14 +31,15 @@ $messages = loadAllMessage($currentUser['id']);
                     </div>
                     <div class="card-body col-md-6">
                         <h1 class="card-title">
-                            <a href="messager.php">
-                                <?php echo $message['displayName']; ?>
-                            </a>
-                        </h1>
+                        <a href="<?php echo "messager.php"; ?>"><?php echo $message['displayName']; ?>
+                            </a>                        
+                        </h1>                     
                     </div>
                 </div>
+                <button type="submit" name="send" value="<?php echo $message['toUserID']; ?>" class="btn btn-outline-primary">Nhắn tin</button>
             </div>
         </div>
+        </form>
     <?php endforeach ?>
 </div>
 

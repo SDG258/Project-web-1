@@ -383,7 +383,7 @@ function deleteMessage($id)
 function loadAllMessage($userID)
 {
     global $db;
-    $stmt = $db->prepare("SELECT DISTINCT m.toUserID, u.displayName FROM message AS m JOIN user AS u ON m.toUserID = u.id WHERE m.fromUserID = ? OR m.toUserID = ?");
+    $stmt = $db->prepare("SELECT DISTINCT m.toUserID, u.displayName FROM message AS m JOIN user AS u ON m.toUserID = u.id WHERE m.fromUserID = ? OR m.toUserID = ? ORDER BY m.createdAt ASC");
     $stmt->execute(array($userID, $userID));
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }

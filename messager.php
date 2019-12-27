@@ -6,7 +6,9 @@ if (!$currentUser) {
 }
 ?>
 <?php include 'header.php'; ?>
-<?php $toUserID = findUserByID($_SESSION['id']); ?>
+<?php $toUserID = findUserByID($_SESSION['id']); 
+echo $toUserID['id'];
+?>
 <?php
 $count = 0;
 $messagers = loadMessage($currentUser['id'], $toUserID['id']);
