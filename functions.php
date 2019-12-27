@@ -343,7 +343,7 @@ function getNewFeedsOfCurrentUserWithPagging($userId, $limit, $page)
     $friendIds[] = $userId;
     $calc_page = intval(($page - 1) * $limit);
 
-    $stmt = $db->prepare("SELECT p.*, u.displayName , u.id as idAvatar FROM posts as p LEFT JOIN user as u ON u.id = p.userId WHERE p.userId IN (" . implode(',', $friendIds) .  ") ORDER BY createdAt DESC LIMIT $calc_page , $limit");
+    $stmt = $db->prepare("SELECT p.*, u.displayName , u.id as idAvatar FROM posts as p LEFT JOIN user as u ON u.id = p.userId WHERE p.userId IN (" . implode(',', $friendIds) .  ") AND privacy !='Private' ORDER BY createdAt DESC LIMIT $calc_page , $limit");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
