@@ -13,9 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
     <link rel="stylesheet" href="style.css">
 
-    <title>Đồ Án Web 1</title>
 </head>
-
 <body>
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -44,12 +42,6 @@
                         </li>
                         <li class="nav-item<?php echo $page == 'personal' ? 'active' : '' ?>">
                             <a class="nav-link" href="personal.php"><strong> Trang cá nhân</strong></a>
-                        </li>
-                        <li class="nav-item<?php echo $page == 'friendSuggestions' ? 'active' : '' ?>">
-                            <a class="nav-link" href="friendSuggestions.php"><strong> Gợi ý kết bạn</strong></a>
-                        </li>
-                        <li class="nav-item<?php echo $page == 'Messager' ? 'active' : '' ?>">
-                            <a class="nav-link" href="formMessager.php"><strong> Tin nhắn</strong></a>
                         </li>
                         <li class="nav-item<?php echo $page == 'logout' ? 'active' : '' ?>">
                             <a class="nav-link" href="logout.php"> <strong>Đăng xuất<?php echo  $currentUser ? '(' . $currentUser['displayName'] . ')' : '' ?></strong></a>

@@ -11,4 +11,4 @@ $EMAIL_NAME = 'Dương Hữu';
 $EMAIL_PASSWORD = 'ABCxyz@@';
 
 //Base url config
-$BASE_URL = 'http://localhost/deadline/Project';
+$BASE_URL = 'http://localhost/BT/Project';

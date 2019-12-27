@@ -1,8 +1,8 @@
-      <div class='textcolor' style="margin-left: 85%;">
+      <!-- <div class='textcolor' style="margin-left: 85%;">
         <div style="margin-top: 65%;">
           <blockquote class="blockquote">
             <p class="mb-0">Lập trình web 1</p>
-            <footer class="blockquote-footer">&copy; Design By DLD</footer>
+            <footer class="blockquote-footer">&copy; Design By DLD</footer> -->
           </blockquote>
         </div>
       </div>

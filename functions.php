@@ -370,7 +370,7 @@ function sendNotificationSendMessage($fromUserId, $toUserId)
     $user = findUserById($toUserId);
     $currentUser = findUserById($fromUserId);
 
-    sendEmail($user['email'], $user['displayName'], 'Tin nhắn mới', $currentUser['displayName'] . " đã gửi tin nhắn mới cho bạn");
+    sendEmail($user['email'], $user['displayName'], 'New Massage', $currentUser['displayName'] . " sent a new message to you");
 }
 
 function deleteMessage($id)
