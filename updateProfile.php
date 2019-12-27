@@ -23,16 +23,19 @@ if (!$currentUser) {
             $file = $_FILES['avatar'];
             $fileType = $file['type'];
             $fileTemp = $file['tmp_name'];
-        // if($fileTemp == 0){
-        // }
-        // else{
-        //     $avatar = file_get_contents($fileTemp);
-        // }
+
         if (!empty($fileTemp) && file_exists($fileTemp)) {
             $avatar = file_get_contents($fileTemp);
         }
         else{
-            $avatar = null;
+            $tmp = loadAvatars($currentUser['id']);
+            if($tmp['avatars'] != null){
+                $fileType = $tmp['mime'];
+                $avatar = $tmp['avatars'];
+            }
+            else{
+                $avatar = null;
+            }
         }
             if ($displayName != null) {
                 updateProfile($firstName, $surname, $displayName, $DOB, $phoneNumber, $fileType, $avatar, $currentUser['id']);

@@ -136,7 +136,6 @@ function loadAvatars($id){
     $stmt->execute(array($id));
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
-
 function loadImage($id){
     global $db;
     $stmt =$db->prepare("select * from posts where id = ?");
