@@ -124,7 +124,6 @@ echo $toUserID['id'];
                         <?php if (isset($_POST['send']) && isset($_POST['message']) && !empty($_POST['message'])) {
                             $message = $_POST['message'];
                             sendMessage($currentUser['id'], $toUserID['id'], $message);
-                            header('Location: messager.php');
                         }
                         ?>
                         <form class='textcolor' action="messager.php" method="POST" enctype="multipart/form-data">
