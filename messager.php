@@ -47,12 +47,13 @@ $toUserID = findUserByID($_SESSION['id']); ?>
             if (item.fromUserID == "<?php echo $currentUser['id']; ?>") {
                 let time = new Date(item.createdAt);
                 time = `${time.getHours()}:${time.getMinutes() < 10 ? '0' : ''}${time.getMinutes()}`;
-                return `<div class="msg" style="float: right">${item.message}<span>${time}</span></div> <br> <br>`;
+                return `<div class="msg" style="float: right">${item.message}<span>${time}</span></div><br><br>`;
             } else {
                 let time = new Date(item.createdAt);
                 time = `${time.getHours()}:${time.getMinutes() < 10 ? '0' : ''}${time.getMinutes()}`;
-                return `<div class="msg">${item.message}<span>${time}</span></div></div>`;
+                return `<div class="row"><div class="msg">${item.message}<span>${time}</span></div>`;
             }
+            
     }
 </script>
 <style>
@@ -109,7 +110,6 @@ $toUserID = findUserByID($_SESSION['id']); ?>
 <body>
     <div id="messages"></div>
     <form>
-
         <input type="text" id="message" autocomplete="off" autofocus placeholder="Type message...">
         <input type="submit" value="Send">
     </form>

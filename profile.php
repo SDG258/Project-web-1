@@ -37,10 +37,17 @@ $isFollower = getFriendShip($userId, $currentUser['id']);
 
 <?php if ($isFollowing && $isFollower) : ?>
     Bạn bè
-    <form method="POST" action="remove-friend.php" style="margin:10px;">
-        <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
-        <button type="submit" class="btn btn-primary">Xóa bạn bè</button>
-    </form>
+    <div class="row">
+        <form method="POST" action="remove-friend.php" style="margin:10px;">
+            <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
+            <button type="submit" class="btn btn-primary">Xóa bạn bè</button>
+        </form>
+        <form method="POST" action="messager.php" style="margin:10px;">
+            <?php $_SESSION['id'] = $_GET['id']; ?>
+            <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
+            <button type="submit" name="sendMessage" class="btn btn-primary">Nhắn tin</button>
+        </form>
+    </div>
 <?php else : ?>
     <?php if ($isFollowing && !$isFollower) : ?>
         <form method="POST" action="remove-friend.php">
@@ -60,23 +67,15 @@ $isFollower = getFriendShip($userId, $currentUser['id']);
                 <button type="submit" class="btn btn-primary">Đồng ý kết bạn </button>
             </form>
         </div>
-
     <?php endif; ?>
 
-
-
     <?php if (!$isFollowing && !$isFollower) : ?>
-        <div class="row">
-            <form method="POST" action="add-friend.php" style="margin:10px;">
-                <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
-                <button type="submit" class="btn btn-primary">Kết bạn</button>
-            </form>
-            <form method="POST" action="messager.php" style="margin-left: 3%">
-                <?php $_SESSION['id'] = $_GET['id']; ?>
-                <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
-                <button type="submit" name="sendMessage" class="btn btn-primary">Nhắn tin</button>
-            </form>
-        </div>
+
+        <form method="POST" action="add-friend.php" style="margin:10px;">
+            <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
+            <button type="submit" class="btn btn-primary">Kết bạn</button>
+        </form>
+
     <?php endif; ?>
 
 <?php endif; ?>
