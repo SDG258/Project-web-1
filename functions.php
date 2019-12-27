@@ -49,20 +49,20 @@ function updateProfile($firstName, $surname, $displayName, $DOB, $phoneNumber, $
 }
 function getNewFeeds(){
     global $db;
-    $stmt = $db->query("SELECT p.*, u.displayName, u.id FROM posts AS p JOIN user AS u ON p.userID = u.id ORDER BY createdAt DESC");
+    $stmt = $db->query("SELECT p.*, u.displayName, u.id as idAvatar FROM posts AS p JOIN user AS u ON p.userID = u.id ORDER BY createdAt DESC");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getMyStatus($userID){
     global $db;
-    $stmt = $db->prepare("SELECT p.*, u.displayName, u.id, u.DOB  FROM posts AS p JOIN user AS u ON p.userID = u.id Where u.id = ? ORDER BY createdAt DESC");
+    $stmt = $db->prepare("SELECT p.*, u.displayName, u.id as idAvatar, u.DOB  FROM posts AS p JOIN user AS u ON p.userID = u.id Where u.id = ? ORDER BY createdAt DESC");
     $stmt->execute(array($userID));
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-function createPost($userID, $content){
+function createPost($userID, $content,$mime,$image,$privacy){
     global $db;
-    $stmt = $db->prepare("INSERT INTO posts (content, userID) VALUES (? ,? )");
-    $stmt->execute(array($content, $userID));
+    $stmt = $db->prepare("INSERT INTO posts (content, userID,mime,image,privacy) VALUES (? ,? ,? ,? ,?)");
+    $stmt->execute(array($content, $userID, $mime, $image, $privacy));
 }
 function generateRandomString($length = 10) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -136,6 +136,13 @@ function loadAvatars($id){
     $stmt->execute(array($id));
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+function loadImage($id){
+    global $db;
+    $stmt =$db->prepare("select * from posts where id = ?");
+    $stmt->execute(array($id));
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
 function test_input($data) {
 	$data = trim($data);
 	$data = stripslashes($data);
@@ -147,6 +154,9 @@ function sendFriendRequest($userId1, $userId2)
   global $db;
   $stmt = $db->prepare("INSERT INTO friendship (userId1,userId2) VALUES (?, ?) ");
   $stmt->execute(array($userId1, $userId2));
+
+  sendNotificationAddFriend($userId1, $userId2);
+  
 }
 
 function removeFriendRequest($userId1, $userId2)
@@ -163,3 +173,162 @@ function getFriendShip($userId1,$userId2)
   $stmt->execute(array($userId1, $userId2));
   return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+
+
+function addCommentToPost($postId,$userId,$content)
+{
+    global $db;
+    $stmt = $db->prepare("INSERT INTO comments (postId,userId,content) VALUES (?, ?, ?) ");
+    $stmt->execute(array($postId,$userId,$content));
+}
+
+function getCommentOfPost($postId)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT u.*,c.content,c.createdAt  FROM comments AS c JOIN user AS u ON c.userId = u.id WHERE c.postId = ? ORDER BY c.createdAt DESC");
+    $stmt->execute(array($postId));
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getCountCommentOfPost($postId)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT COUNT(*) as totalComment FROM comments WHERE postId = ? ");
+    $stmt->execute(array($postId));
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getLikeOfPost($postId)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT COUNT(*) as totalLike FROM likes WHERE postId = ? ");
+    $stmt->execute(array($postId));
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function loadAllUser($currentUserId)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT *  FROM user WHERE id != ?");
+    $stmt->execute(array($currentUserId));
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function loadPostOfUserForFriends($id)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT p.*, u.displayName, u.id as idAvatar, u.DOB  FROM posts as p JOIN user as u ON p.userID = u.id WHERE userID = ? AND (privacy= 'Public' OR  privacy ='Friend' )");
+    $stmt->execute(array($id));
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function loadPostOfUserForEveryOne($id)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT p.*, u.displayName, u.id as idAvatar, u.DOB  FROM posts as p JOIN user as u ON p.userID = u.id WHERE userID = ? AND privacy= 'Public' ");
+    $stmt->execute(array($id));
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function userLike($postId,$userId)
+{
+    
+    global $db;
+    $stmt = $db->prepare("SELECT *FROM likes WHERE postId=? and userId=?");
+    $stmt->execute(array($postId,$userId));
+    if($stmt->fetchAll(PDO::FETCH_ASSOC)) 
+    {
+        return true;
+    }
+    return false;
+}
+function addOrRemoveLike($postId,$userId)
+{
+    global $db;
+    if(userLike($postId,$userId))
+    {
+        $stmt = $db->prepare("DELETE FROM likes WHERE postId=? and userId=?");
+        $stmt->execute(array($postId,$userId));
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    else{
+        $stmt = $db->prepare("INSERT INTO likes (postId,userId) VALUES (?, ?)");
+        $stmt->execute(array($postId,$userId));
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+}
+function sendNotificationAddFriend($fromUserId,$toUserId)
+{
+    global $BASE_URL;
+    $user=findUserById($toUserId);
+    $currentUser=findUserById($fromUserId);
+
+    sendEmail($user['email'],$user['displayName'],'Lời mời kết bạn', $currentUser['displayName'] ." đã gửi cho bạn một lời mời kết bạn.Link đến trang cá nhân: 
+    <a href = \"$BASE_URL/profile.php?id=$fromUserId\">$BASE_URL/profile.php?id=$fromUserId</a>");
+   
+}
+
+function getNewFeedsOfCurrentUser($userId) {
+    global $db;
+    $friends = getFriends($userId);
+    $friendIds = array();
+    foreach ($friends as $friend) {
+      $friendIds[] = $friend['id'];
+    }
+    $friendIds[] = $userId;
+    $stmt = $db->prepare("SELECT p.*, u.displayName , u.id as idAvatar FROM posts as p LEFT JOIN user as u ON u.id = p.userId WHERE p.userId IN (" . implode(',', $friendIds) .  ") ORDER BY createdAt DESC");
+    $stmt->execute();
+    $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $posts;
+  }
+
+  function getFriends($userId) {
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM friendship WHERE userId1 = ? OR userId2 = ?");
+    $stmt->execute(array($userId, $userId));
+    $followings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $friends = array();
+    for ($i = 0; $i < count($followings); $i++) {
+      $row1 = $followings[$i];
+      if ($userId == $row1['userId1']) {
+        $userId2 = $row1['userId2'];
+        for ($j = 0; $j < count($followings); $j++) {
+          $row2 = $followings[$j];
+          if ($userId == $row2['userId2'] && $userId2 == $row2['userId1']) {
+            $friends[] = findUserById($userId2);
+          }
+        }
+      }
+    }
+    return $friends;
+  }
+
+  function getTotalPostOfNewfeed($userId)
+  {
+    global $db;
+    $friends = getFriends($userId);
+    $friendIds = array();
+    foreach ($friends as $friend) {
+      $friendIds[] = $friend['id'];
+    }
+    $friendIds[] = $userId;
+    $stmt = $db->prepare("SELECT COUNT(*) as total_post FROM posts as p LEFT JOIN user as u ON u.id = p.userId WHERE p.userId IN (" . implode(',', $friendIds) .  ") ORDER BY createdAt DESC");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  function getNewFeedsOfCurrentUserWithPagging($userId,$limit,$page) {
+    global $db;
+    $friends = getFriends($userId);
+    $friendIds = array();
+    foreach ($friends as $friend) {
+      $friendIds[] = $friend['id'];
+    }
+    $friendIds[] = $userId;
+    $calc_page=intval(($page-1)*$limit);
+    
+    $stmt = $db->prepare("SELECT p.*, u.displayName , u.id as idAvatar FROM posts as p LEFT JOIN user as u ON u.id = p.userId WHERE p.userId IN (" . implode(',', $friendIds) .  ") ORDER BY createdAt DESC LIMIT $calc_page , $limit");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
