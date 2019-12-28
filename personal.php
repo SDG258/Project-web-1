@@ -30,7 +30,13 @@
 <?php
 require_once 'init.php';
 
-$posts = getMyStatus($currentUser['id']);
+$limit = 3;
+$pagenum = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
+$posts = getMyStatusWithPaging($currentUser['id'], $limit, $pagenum);
+
+$totalPost = intval(getTotalPostOfMy($currentUser['id'])[0]['total_post']);
+$totalPage = intval($totalPost % $limit != 0 ? $totalPost / $limit + 1 : $totalPost / $limit);
+
 //Xử lý logic ở đây
 ?>
 
@@ -82,14 +88,14 @@ $posts = getMyStatus($currentUser['id']);
                 </ul>
 
 
-               
+
             </div>
         </div>
     </div>
     <section>
         <div class="feature-photo">
             <center>
-            <figure><img src="images/anhbia.jpg" style="width: 1100px;height:350px"></figure>
+                <figure><img src="images/anhbia.jpg" style="width: 1100px;height:350px"></figure>
             </center>
 
             <div class="container-fluid">
@@ -176,6 +182,7 @@ $posts = getMyStatus($currentUser['id']);
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="row">
                                         <?php foreach ($posts as $post) : ?>
                                             <?php $id = $post['idAvatar']; ?>
@@ -271,6 +278,16 @@ $posts = getMyStatus($currentUser['id']);
                                             </div>
                                         <?php endforeach ?>
                                     </div>
+
+                                    <ul class="pagination justify-content-center" style="margin:30px ">
+                                        <?php if ($pagenum - 1 > 0) : ?>
+                                            <li class="page-item"> <a class="page-link" href="personal.php?page=<?php echo $pagenum - 1; ?>">Trang Trước</a></li>
+                                        <?php endif; ?>
+
+                                        <?php if ($pagenum < $totalPage) : ?>
+                                            <li class="page-item"> <a class="page-link" href="personal.php?page=<?php echo $pagenum + 1; ?>">Trang Kế</a></li>
+                                        <?php endif; ?>
+                                    </ul>
                                 </div>
 
                             </div>

@@ -29,7 +29,7 @@
 </head>
 <?php
 require_once 'init.php';
-$limit = 10;
+$limit = 5;
 $pagenum = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
 $posts = getNewFeedsOfCurrentUserWithPagging($currentUser['id'], $limit, $pagenum);
 

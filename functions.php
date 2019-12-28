@@ -231,19 +231,36 @@ function loadAllUser($currentUserId)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function loadPostOfUserForFriends($id)
-{
+function getTotalPostOfFriend($id){
     global $db;
-    $stmt = $db->prepare("SELECT p.*, u.displayName, u.id as idAvatar, u.DOB  FROM posts as p JOIN user as u ON p.userID = u.id WHERE userID = ? AND (privacy= 'Public' OR  privacy ='Friend' )");
+    $stmt = $db->prepare("SELECT COUNT(*) as total_post FROM posts as p JOIN user as u ON p.userID = u.id WHERE userID = ? AND (privacy= 'Public' OR  privacy ='Friend' )");
     $stmt->execute(array($id));
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function loadPostOfUserForEveryOne($id)
+function loadPostOfUserForFriends($id,$limit,$page)
 {
     global $db;
-    $stmt = $db->prepare("SELECT p.*, u.displayName, u.id as idAvatar, u.DOB  FROM posts as p JOIN user as u ON p.userID = u.id WHERE userID = ? AND privacy= 'Public' ");
+    $calc_page = intval(($page - 1) * $limit);
+    $stmt = $db->prepare("SELECT p.*, u.displayName, u.id as idAvatar, u.DOB  FROM posts as p JOIN user as u ON p.userID = u.id WHERE userID = $id AND (privacy= 'Public' OR  privacy ='Friend' ) ORDER BY createdAt DESC LIMIT $calc_page , $limit");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getTotalPostOfStranger($id){
+    global $db;
+    $stmt = $db->prepare("SELECT COUNT(*) as total_post FROM posts as p JOIN user as u ON p.userID = u.id WHERE userID = ? AND privacy= 'Public' ");
     $stmt->execute(array($id));
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function loadPostOfUserForEveryOne($id,$limit,$page)
+{
+    global $db;
+    $calc_page = intval(($page - 1) * $limit);
+
+    $stmt = $db->prepare("SELECT p.*, u.displayName, u.id as idAvatar, u.DOB  FROM posts as p JOIN user as u ON p.userID = u.id WHERE userID = $id AND privacy= 'Public' ORDER BY createdAt DESC LIMIT $calc_page , $limit " );
+    $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -385,5 +402,22 @@ function loadAllMessage($userID)
     global $db;
     $stmt = $db->prepare("SELECT DISTINCT m.toUserID, u.displayName FROM message AS m JOIN user AS u ON m.toUserID = u.id WHERE m.fromUserID = ? OR m.toUserID = ? ORDER BY m.createdAt ASC");
     $stmt->execute(array($userID, $userID));
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getTotalPostOfMy($userID)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT COUNT(*) as total_post FROM posts AS p JOIN user AS u ON p.userID = u.id Where u.id = ? ORDER BY createdAt DESC");
+    $stmt->execute(array($userID));
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getMyStatusWithPaging($userID,$limit,$page)
+{
+    global $db;
+    $calc_page = intval(($page - 1) * $limit);
+    $stmt = $db->prepare("SELECT p.*, u.displayName, u.id as idAvatar, u.DOB  FROM posts AS p JOIN user AS u ON p.userID = u.id Where u.id = $userID ORDER BY createdAt DESC LIMIT $calc_page , $limit");
+    $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }

@@ -36,12 +36,24 @@ $profile = findUserByID($userId);
 
 $isFollowing = getFriendShip($currentUser['id'], $userId);
 $isFollower = getFriendShip($userId, $currentUser['id']);
+
+$limit = 2;
+$pagenum = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
+
 ?>
 
 <?php if ($isFollowing && $isFollower) : ?>
-    <?php $posts = loadPostOfUserForFriends($userId); ?>
+    <?php
+    $posts = loadPostOfUserForFriends($userId,$limit,$pagenum); 
+    $totalPost = intval(getTotalPostOfFriend($currentUser['id'])[0]['total_post']);
+    $totalPage = intval($totalPost % $limit != 0 ? $totalPost / $limit + 1 : $totalPost / $limit);
+    ?>
 <?php else : ?>
-    <?php $posts = loadPostOfUserForEveryOne($userId); ?>
+    <?php 
+    $posts = loadPostOfUserForEveryOne($userId,$limit,$pagenum); 
+    $totalPost = intval(getTotalPostOfStranger($currentUser['id'])[0]['total_post']);
+    $totalPage = intval($totalPost % $limit != 0 ? $totalPost / $limit + 1 : $totalPost / $limit);
+    ?>
 <?php endif; ?>
 <div class="se-pre-con"></div>
 <div class="theme-layout">
@@ -174,11 +186,7 @@ $isFollower = getFriendShip($userId, $currentUser['id']);
         </div>
     </div>
 </section>
-<?php if ($isFollowing && $isFollower) : ?>
-    <?php $posts = loadPostOfUserForFriends($userId); ?>
-<?php else : ?>
-    <?php $posts = loadPostOfUserForEveryOne($userId); ?>
-<?php endif; ?>
+
 <section>
     <div class="gap gray-bg">
         <div class="container">
@@ -288,6 +296,16 @@ $isFollower = getFriendShip($userId, $currentUser['id']);
                                                 </div>
                                             <?php endforeach ?>
                                         </div>
+
+                                        <ul class="pagination justify-content-center" style="margin:30px ">
+                                            <?php if ($pagenum - 1 > 0) : ?>
+                                                <li class="page-item"> <a class="page-link" href="profile.php?id=<?php echo $userId;?>&page=<?php echo $pagenum - 1; ?>">Trang Trước</a></li>
+                                            <?php endif; ?>
+
+                                            <?php if ($pagenum < $totalPage) : ?>
+                                                <li class="page-item"> <a class="page-link" href="profile.php?id=<?php echo $userId;?>&page=<?php echo $pagenum + 1; ?>">Trang Kế</a></li>
+                                            <?php endif; ?>
+                                        </ul>
                                     </div>
 
                                 </div>
